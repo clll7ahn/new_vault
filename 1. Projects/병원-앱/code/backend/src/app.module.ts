@@ -8,6 +8,7 @@ import jwtConfig from './config/jwt.config';
 import { AuthModule } from './modules/common/auth/auth.module';
 import { HospitalInfoModule } from './modules/common/hospital-info/hospital-info.module';
 import { AppointmentModule } from './modules/common/appointment/appointment.module';
+import { QueueModule } from './modules/common/queue/queue.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AppointmentModule } from './modules/common/appointment/appointment.modu
     AuthModule,
     HospitalInfoModule,
     AppointmentModule,
+    QueueModule,
   ],
   controllers: [AppController],
   providers: [AppService],
