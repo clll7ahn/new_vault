@@ -9,6 +9,7 @@ import { AuthModule } from './modules/common/auth/auth.module';
 import { HospitalInfoModule } from './modules/common/hospital-info/hospital-info.module';
 import { AppointmentModule } from './modules/common/appointment/appointment.module';
 import { QueueModule } from './modules/common/queue/queue.module';
+import { NotificationModule } from './modules/common/notification/notification.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { QueueModule } from './modules/common/queue/queue.module';
     HospitalInfoModule,
     AppointmentModule,
     QueueModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
