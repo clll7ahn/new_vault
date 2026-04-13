@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../appointment/domain/appointment_model.dart';
 import '../../appointment/providers/appointment_provider.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../notification/providers/notification_provider.dart';
 
 /// 홈 화면
 ///
@@ -21,10 +22,58 @@ class HomePage extends ConsumerWidget {
     final user = ref.watch(currentUserProvider);
     final nextAppAsync = ref.watch(nextAppointmentProvider);
 
+    final unreadAsync = ref.watch(unreadCountProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('홈'),
         actions: [
+          // ── 알림 벨 + 미읽음 배지 ────────────────────────────────────────
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.notifications_outlined),
+                tooltip: '알림',
+                onPressed: () => context.push('/notifications'),
+                constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+              ),
+              unreadAsync.maybeWhen(
+                data: (count) {
+                  if (count <= 0) return const SizedBox.shrink();
+                  return Positioned(
+                    top: 6,
+                    right: 6,
+                    child: IgnorePointer(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 1),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.error,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          count > 99 ? '99+' : '$count',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                orElse: () => const SizedBox.shrink(),
+              ),
+            ],
+          ),
           IconButton(
             icon: const Icon(Icons.logout_outlined),
             tooltip: '로그아웃',
