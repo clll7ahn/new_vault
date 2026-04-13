@@ -11,6 +11,7 @@ import 'modules/common/auth/providers/auth_provider.dart';
 import 'modules/common/home/presentation/home_page.dart';
 import 'modules/common/hospital_info/presentation/doctor_list_page.dart';
 import 'modules/common/hospital_info/presentation/hospital_info_page.dart';
+import 'modules/common/queue/presentation/queue_status_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -60,6 +61,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/doctors',
         name: 'doctors',
         builder: (context, state) => const DoctorListPage(),
+      ),
+
+      // ── Queue ─────────────────────────────────────────────────────────────
+      GoRoute(
+        path: '/queue',
+        name: 'queue',
+        builder: (context, state) => const QueueStatusPage(),
       ),
 
       // ── Appointment ────────────────────────────────────────────────────────

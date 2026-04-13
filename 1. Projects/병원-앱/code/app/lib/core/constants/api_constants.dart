@@ -52,6 +52,13 @@ class ApiConstants {
   static const String fcmToken = '$apiV1/notifications/fcm-token';
 
   // ──────────────────────────────────────────
+  // 대기열 엔드포인트
+  // ──────────────────────────────────────────
+  static const String queue = '$apiV1/queue';
+  static const String queueMyStatus = '$apiV1/queue/me';
+  static const String queueEstimate = '$apiV1/queue/estimate';
+
+  // ──────────────────────────────────────────
   // 의사/부서 엔드포인트
   // ──────────────────────────────────────────
   static const String doctors = '$apiV1/doctors';

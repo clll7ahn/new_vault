@@ -309,6 +309,11 @@ class _QuickMenuGrid extends StatelessWidget {
       route: '/appointments',
     ),
     _QuickMenuItem(
+      icon: Icons.queue_outlined,
+      label: '대기현황',
+      route: '/queue',
+    ),
+    _QuickMenuItem(
       icon: Icons.local_hospital_outlined,
       label: '병원 정보',
       route: '/hospital-info',
