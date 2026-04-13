@@ -16,10 +16,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/login',
     redirect: (context, state) {
-      final isLoggedIn = authState.maybeWhen(
-        authenticated: (_) => true,
-        orElse: () => false,
-      );
+      final isLoggedIn = authState is AuthAuthenticated;
       final isAuthRoute = state.matchedLocation == '/login' ||
           state.matchedLocation == '/register';
 
