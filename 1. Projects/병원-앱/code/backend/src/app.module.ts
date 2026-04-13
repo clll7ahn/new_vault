@@ -7,6 +7,7 @@ import databaseConfig from './config/database.config';
 import jwtConfig from './config/jwt.config';
 import { AuthModule } from './modules/common/auth/auth.module';
 import { HospitalInfoModule } from './modules/common/hospital-info/hospital-info.module';
+import { AppointmentModule } from './modules/common/appointment/appointment.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { HospitalInfoModule } from './modules/common/hospital-info/hospital-info
     }),
     AuthModule,
     HospitalInfoModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
