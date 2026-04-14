@@ -5,11 +5,14 @@ import { ChatSession } from './entities/chat-session.entity';
 import { ChatMessage } from './entities/chat-message.entity';
 import { ChatbotService } from './chatbot.service';
 import { ChatbotController } from './chatbot.controller';
+import { LlmChatService } from './llm/llm-chat.service';
+import { LlmChatController } from './llm/llm-chat.controller';
+import { GuardrailService } from './llm/guardrail.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Faq, ChatSession, ChatMessage])],
-  controllers: [ChatbotController],
-  providers: [ChatbotService],
-  exports: [ChatbotService],
+  controllers: [ChatbotController, LlmChatController],
+  providers: [ChatbotService, LlmChatService, GuardrailService],
+  exports: [ChatbotService, LlmChatService, GuardrailService],
 })
 export class ChatbotModule {}

@@ -21,6 +21,13 @@ import { OphthalmologyModule } from './modules/specialty/ophthalmology/ophthalmo
 import { DentalModule } from './modules/specialty/dental/dental.module';
 import { ObstetricsModule } from './modules/specialty/obstetrics/obstetrics.module';
 import { PsychiatryModule } from './modules/specialty/psychiatry/psychiatry.module';
+import { EntModule } from './modules/specialty/ent/ent.module';
+import { FamilyMedicineModule } from './modules/specialty/family-medicine/family-medicine.module';
+import { UrologyModule } from './modules/specialty/urology/urology.module';
+import { NeurologyModule } from './modules/specialty/neurology/neurology.module';
+import { PlasticSurgeryModule } from './modules/specialty/plastic-surgery/plastic-surgery.module';
+import { KoreanMedicineModule } from './modules/specialty/korean-medicine/korean-medicine.module';
+import { RehabilitationModule } from './modules/specialty/rehabilitation/rehabilitation.module';
 
 @Module({
   imports: [
@@ -50,6 +57,13 @@ import { PsychiatryModule } from './modules/specialty/psychiatry/psychiatry.modu
     DentalModule,
     ObstetricsModule,
     PsychiatryModule,
+    EntModule,
+    FamilyMedicineModule,
+    UrologyModule,
+    NeurologyModule,
+    PlasticSurgeryModule,
+    KoreanMedicineModule,
+    RehabilitationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
