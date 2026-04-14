@@ -34,6 +34,7 @@ import 'modules/specialty/korean_medicine/presentation/korean_medicine_page.dart
 import 'modules/specialty/rehabilitation/presentation/rehabilitation_page.dart';
 import 'modules/common/chatbot/presentation/llm_chat_page.dart';
 import 'modules/common/analytics/presentation/analytics_dashboard_page.dart';
+import 'modules/common/billing/presentation/billing_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -216,6 +217,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/analytics',
         name: 'analytics',
         builder: (context, state) => const AnalyticsDashboardPage(),
+      ),
+
+      // ── Billing ────────────────────────────────────────────────────────────
+      GoRoute(
+        path: '/billings',
+        name: 'billings',
+        builder: (context, state) => const BillingPage(),
       ),
 
       // ── Appointment ────────────────────────────────────────────────────────

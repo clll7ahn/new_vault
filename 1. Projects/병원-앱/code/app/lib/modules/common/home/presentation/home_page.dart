@@ -13,7 +13,7 @@ import '../../notification/providers/notification_provider.dart';
 ///
 /// - 인사말 (이름 + 날짜)
 /// - 다음 예약 카드 (없으면 예약하기 CTA)
-/// - 빠른 메뉴 2×2 그리드
+/// - 빠른 메뉴 2×2 그리드 (어르신 모드: 3개)
 /// - 공지 배너 영역 (정적 플레이스홀더)
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -22,13 +22,27 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider);
     final nextAppAsync = ref.watch(nextAppointmentProvider);
-
     final unreadAsync = ref.watch(unreadCountProvider);
+    final isElderly = ref.watch(isElderlyModeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('홈'),
         actions: [
+          // ── 어르신 모드 토글 ──────────────────────────────────────────────
+          IconButton(
+            icon: Icon(
+              isElderly ? Icons.text_decrease : Icons.text_increase,
+              color: isElderly
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+            ),
+            tooltip: isElderly ? '어르신 모드 해제' : '크게 보기 (어르신 모드)',
+            constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+            onPressed: () => ref
+                .read(accessibilityProvider.notifier)
+                .toggleElderlyMode(),
+          ),
           // ── 알림 벨 + 미읽음 배지 ────────────────────────────────────────
           Stack(
             clipBehavior: Clip.none,
@@ -104,8 +118,8 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
 
-            // ── 빠른 메뉴 2×2 ─────────────────────────────────────────────
-            const _QuickMenuGrid(),
+            // ── 빠른 메뉴 (어르신 모드: 3개, 일반: 5개) ─────────────────────
+            _QuickMenuGrid(isElderlyMode: isElderly),
             const SizedBox(height: 20),
 
             // ── 공지 배너 ─────────────────────────────────────────────────
@@ -341,13 +355,16 @@ class _SkeletonBox extends StatelessWidget {
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// 빠른 메뉴 2×2
+// 빠른 메뉴 (일반: 2×2+, 어르신: 1열 3개)
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _QuickMenuGrid extends StatelessWidget {
-  const _QuickMenuGrid();
+  const _QuickMenuGrid({required this.isElderlyMode});
 
-  static const _items = [
+  final bool isElderlyMode;
+
+  /// 전체 메뉴 (일반 모드)
+  static const _allItems = [
     _QuickMenuItem(
       icon: Icons.calendar_month_outlined,
       label: '예약하기',
@@ -375,8 +392,39 @@ class _QuickMenuGrid extends StatelessWidget {
     ),
   ];
 
+  /// 어르신 모드 단축 메뉴 — 예약 / 대기현황 / 병원 전화
+  static const _elderlyItems = [
+    _QuickMenuItem(
+      icon: Icons.calendar_month_outlined,
+      label: '예약하기',
+      route: '/booking',
+    ),
+    _QuickMenuItem(
+      icon: Icons.queue_outlined,
+      label: '대기현황',
+      route: '/queue',
+    ),
+    _QuickMenuItem(
+      icon: Icons.local_hospital_outlined,
+      label: '병원 정보',
+      route: '/hospital-info',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    if (isElderlyMode) {
+      // 어르신 모드: 세로로 큰 카드 3개
+      return Column(
+        children: _elderlyItems
+            .map((item) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _QuickMenuTile(item: item, isElderly: true),
+                ))
+            .toList(),
+      );
+    }
+
     return GridView.count(
       crossAxisCount: 2,
       crossAxisSpacing: 12,
@@ -384,7 +432,7 @@ class _QuickMenuGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.3,
-      children: _items.map((item) => _QuickMenuTile(item: item)).toList(),
+      children: _allItems.map((item) => _QuickMenuTile(item: item)).toList(),
     );
   }
 }
@@ -402,14 +450,52 @@ class _QuickMenuItem {
 }
 
 class _QuickMenuTile extends StatelessWidget {
-  const _QuickMenuTile({required this.item});
+  const _QuickMenuTile({required this.item, this.isElderly = false});
 
   final _QuickMenuItem item;
+  final bool isElderly;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
+
+    if (isElderly) {
+      // 어르신 모드: 가로 전체 넓이, 높이 80dp, 아이콘+텍스트 가로 배치
+      return Card(
+        child: InkWell(
+          onTap: () => context.push(item.route),
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            height: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: cs.primaryContainer,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(item.icon, size: 30, color: cs.primary),
+                ),
+                const SizedBox(width: 20),
+                Text(
+                  item.label,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const Spacer(),
+                Icon(Icons.arrow_forward_ios,
+                    size: 18, color: cs.onSurfaceVariant),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Card(
       child: InkWell(
