@@ -16,6 +16,11 @@ import { HealthTrackerModule } from './modules/common/health-tracker/health-trac
 import { InternalMedicineModule } from './modules/specialty/internal-medicine/internal-medicine.module';
 import { DermatologyModule } from './modules/specialty/dermatology/dermatology.module';
 import { OrthopedicsModule } from './modules/specialty/orthopedics/orthopedics.module';
+import { PediatricsModule } from './modules/specialty/pediatrics/pediatrics.module';
+import { OphthalmologyModule } from './modules/specialty/ophthalmology/ophthalmology.module';
+import { DentalModule } from './modules/specialty/dental/dental.module';
+import { ObstetricsModule } from './modules/specialty/obstetrics/obstetrics.module';
+import { PsychiatryModule } from './modules/specialty/psychiatry/psychiatry.module';
 
 @Module({
   imports: [
@@ -40,6 +45,11 @@ import { OrthopedicsModule } from './modules/specialty/orthopedics/orthopedics.m
     InternalMedicineModule.forRoot(),
     DermatologyModule,
     OrthopedicsModule,
+    PediatricsModule,
+    OphthalmologyModule,
+    DentalModule,
+    ObstetricsModule,
+    PsychiatryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
