@@ -10,6 +10,8 @@ import { HospitalInfoModule } from './modules/common/hospital-info/hospital-info
 import { AppointmentModule } from './modules/common/appointment/appointment.module';
 import { QueueModule } from './modules/common/queue/queue.module';
 import { NotificationModule } from './modules/common/notification/notification.module';
+import { ChatbotModule } from './modules/common/chatbot/chatbot.module';
+import { GamificationModule } from './modules/common/gamification/gamification.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { NotificationModule } from './modules/common/notification/notification.m
     AppointmentModule,
     QueueModule,
     NotificationModule,
+    ChatbotModule,
+    GamificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
