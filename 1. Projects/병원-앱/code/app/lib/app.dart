@@ -13,6 +13,9 @@ import 'modules/common/hospital_info/presentation/doctor_list_page.dart';
 import 'modules/common/hospital_info/presentation/hospital_info_page.dart';
 import 'modules/common/notification/presentation/notification_list_page.dart';
 import 'modules/common/notification/providers/notification_provider.dart';
+import 'modules/common/chatbot/presentation/chat_page.dart';
+import 'modules/common/gamification/presentation/gamification_page.dart';
+import 'modules/common/health_tracker/presentation/health_dashboard_page.dart';
 import 'modules/common/queue/presentation/queue_status_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -77,6 +80,34 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/notifications',
         name: 'notifications',
         builder: (context, state) => const NotificationListPage(),
+      ),
+
+      // ── Chatbot ────────────────────────────────────────────────────────────
+      GoRoute(
+        path: '/chat',
+        name: 'chat',
+        builder: (context, state) {
+          final extra = state.extra;
+          String? sessionId;
+          if (extra is Map<String, dynamic>) {
+            sessionId = extra['sessionId'] as String?;
+          }
+          return ChatPage(sessionId: sessionId);
+        },
+      ),
+
+      // ── Gamification ───────────────────────────────────────────────────────
+      GoRoute(
+        path: '/gamification',
+        name: 'gamification',
+        builder: (context, state) => const GamificationPage(),
+      ),
+
+      // ── Health Tracker ────────────────────────────────────────────────────
+      GoRoute(
+        path: '/health',
+        name: 'health',
+        builder: (context, state) => const HealthDashboardPage(),
       ),
 
       // ── Appointment ────────────────────────────────────────────────────────

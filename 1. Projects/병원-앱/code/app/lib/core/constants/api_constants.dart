@@ -36,6 +36,11 @@ class ApiConstants {
   static const String availableSlots = '$apiV1/appointments/available-slots';
 
   // ──────────────────────────────────────────
+  // 건강 기록 엔드포인트
+  // ──────────────────────────────────────────
+  static const String healthRecords = '$apiV1/health-records';
+
+  // ──────────────────────────────────────────
   // 진료 기록 엔드포인트
   // ──────────────────────────────────────────
   static const String medicalRecords = '$apiV1/medical-records';
