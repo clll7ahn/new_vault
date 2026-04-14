@@ -28,6 +28,8 @@ import { NeurologyModule } from './modules/specialty/neurology/neurology.module'
 import { PlasticSurgeryModule } from './modules/specialty/plastic-surgery/plastic-surgery.module';
 import { KoreanMedicineModule } from './modules/specialty/korean-medicine/korean-medicine.module';
 import { RehabilitationModule } from './modules/specialty/rehabilitation/rehabilitation.module';
+import { AnalyticsModule } from './modules/common/analytics/analytics.module';
+import { TenantModule } from './common/tenant/tenant.module';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { RehabilitationModule } from './modules/specialty/rehabilitation/rehabil
       useFactory: (configService: ConfigService) =>
         configService.get('database')!,
     }),
+    TenantModule,
     AuthModule,
     HospitalInfoModule,
     AppointmentModule,
@@ -49,6 +52,7 @@ import { RehabilitationModule } from './modules/specialty/rehabilitation/rehabil
     ChatbotModule,
     GamificationModule,
     HealthTrackerModule,
+    AnalyticsModule,
     InternalMedicineModule.forRoot(),
     DermatologyModule,
     OrthopedicsModule,
