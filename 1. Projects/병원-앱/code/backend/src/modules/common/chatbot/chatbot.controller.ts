@@ -8,6 +8,7 @@ import {
   UseGuards,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ChatbotService } from './chatbot.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { CreateFaqDto } from './dto/create-faq.dto';
@@ -17,6 +18,7 @@ import { RolesGuard } from '../../../common/guards/roles.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 
+@ApiTags('chatbot')
 @Controller('api/v1/chatbot')
 export class ChatbotController {
   constructor(private readonly chatbotService: ChatbotService) {}

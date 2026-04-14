@@ -3,17 +3,19 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
 import { User, UserRole } from './entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+
+jest.mock('bcrypt');
 
 describe('AuthService', () => {
   let service: AuthService;
   let mockUserRepository: any;
   let mockJwtService: any;
   let mockConfigService: any;
+  let mockBcrypt: any;
 
   const mockUser: User = {
     id: 'test-id-123',
@@ -28,6 +30,12 @@ describe('AuthService', () => {
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+
+    mockBcrypt = require('bcrypt');
+    mockBcrypt.hash = jest.fn();
+    mockBcrypt.compare = jest.fn();
+
     mockUserRepository = {
       findOne: jest.fn(),
       create: jest.fn(),
@@ -164,6 +172,7 @@ describe('AuthService', () => {
       };
 
       mockUserRepository.findOne.mockResolvedValue(null);
+      mockBcrypt.hash.mockResolvedValue('bcrypt-hashed-value');
       mockUserRepository.create.mockReturnValue({
         ...mockUser,
         passwordHash: 'bcrypt-hashed-value',
@@ -175,16 +184,12 @@ describe('AuthService', () => {
       mockJwtService.sign.mockReturnValue('mock-token');
       mockConfigService.get.mockReturnValue('15m');
 
-      const hashSpy = jest.spyOn(bcrypt, 'hash');
-
       await service.register(registerDto);
 
-      expect(hashSpy).toHaveBeenCalledWith(
+      expect(mockBcrypt.hash).toHaveBeenCalledWith(
         registerDto.password,
         expect.any(Number),
       );
-
-      hashSpy.mockRestore();
     });
   });
 
@@ -196,7 +201,7 @@ describe('AuthService', () => {
       };
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      mockBcrypt.compare.mockResolvedValue(true);
       mockJwtService.sign.mockReturnValue('mock-token');
       mockConfigService.get.mockReturnValue('15m');
 
@@ -205,7 +210,7 @@ describe('AuthService', () => {
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({
         where: { email: loginDto.email },
       });
-      expect(bcrypt.compare).toHaveBeenCalledWith(
+      expect(mockBcrypt.compare).toHaveBeenCalledWith(
         loginDto.password,
         mockUser.passwordHash,
       );
@@ -221,12 +226,12 @@ describe('AuthService', () => {
       };
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      mockBcrypt.compare.mockResolvedValue(false);
 
       await expect(service.login(loginDto)).rejects.toThrow(
         UnauthorizedException,
       );
-      expect(bcrypt.compare).toHaveBeenCalledWith(
+      expect(mockBcrypt.compare).toHaveBeenCalledWith(
         loginDto.password,
         mockUser.passwordHash,
       );
@@ -269,7 +274,7 @@ describe('AuthService', () => {
       const password = 'CorrectPassword123!';
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      mockBcrypt.compare.mockResolvedValue(true);
 
       const result = await service.validateUser(email, password);
 
@@ -277,7 +282,7 @@ describe('AuthService', () => {
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({
         where: { email },
       });
-      expect(bcrypt.compare).toHaveBeenCalledWith(password, mockUser.passwordHash);
+      expect(mockBcrypt.compare).toHaveBeenCalledWith(password, mockUser.passwordHash);
     });
 
     it('should return null when user does not exist', async () => {

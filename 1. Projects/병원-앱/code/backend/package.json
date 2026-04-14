@@ -17,10 +17,18 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed": "ts-node -r tsconfig-paths/register database/seeds/seed.ts",
+    "seed:dev": "NODE_ENV=development npm run seed",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "docker:logs": "docker-compose logs -f",
+    "docker:seed": "docker-compose exec api npm run seed"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/swagger": "^7.0.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^10.2.0",

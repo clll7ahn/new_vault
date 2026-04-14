@@ -10,6 +10,7 @@ import {
   UseGuards,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { QueueService } from './queue.service';
 import { CreateQueueDto } from './dto/create-queue.dto';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
@@ -17,6 +18,7 @@ import { RolesGuard } from '../../../common/guards/roles.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 
+@ApiTags('queue')
 @Controller('api/v1/queue')
 export class QueueController {
   constructor(private readonly queueService: QueueService) {}
