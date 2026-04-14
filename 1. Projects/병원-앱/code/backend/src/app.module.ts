@@ -12,6 +12,7 @@ import { QueueModule } from './modules/common/queue/queue.module';
 import { NotificationModule } from './modules/common/notification/notification.module';
 import { ChatbotModule } from './modules/common/chatbot/chatbot.module';
 import { GamificationModule } from './modules/common/gamification/gamification.module';
+import { HealthTrackerModule } from './modules/common/health-tracker/health-tracker.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { GamificationModule } from './modules/common/gamification/gamification.m
     NotificationModule,
     ChatbotModule,
     GamificationModule,
+    HealthTrackerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
