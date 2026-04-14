@@ -17,6 +17,14 @@ import 'modules/common/chatbot/presentation/chat_page.dart';
 import 'modules/common/gamification/presentation/gamification_page.dart';
 import 'modules/common/health_tracker/presentation/health_dashboard_page.dart';
 import 'modules/common/queue/presentation/queue_status_page.dart';
+import 'modules/specialty/pediatrics/presentation/pediatrics_page.dart';
+import 'modules/specialty/ophthalmology/presentation/ophthalmology_page.dart';
+import 'modules/specialty/dental/presentation/dental_page.dart';
+import 'modules/specialty/obstetrics/presentation/obstetrics_page.dart';
+import 'modules/specialty/psychiatry/presentation/psychiatry_page.dart';
+import 'modules/specialty/internal_medicine/presentation/im_dashboard_page.dart';
+import 'modules/specialty/dermatology/presentation/derm_dashboard_page.dart';
+import 'modules/specialty/orthopedics/presentation/ortho_dashboard_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -108,6 +116,48 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/health',
         name: 'health',
         builder: (context, state) => const HealthDashboardPage(),
+      ),
+
+      // ── Specialty ─────────────────────────────────────────────────────────────
+      GoRoute(
+        path: '/specialty/pediatrics',
+        name: 'specialtyPediatrics',
+        builder: (context, state) => const PediatricsPage(),
+      ),
+      GoRoute(
+        path: '/specialty/ophthalmology',
+        name: 'specialtyOphthalmology',
+        builder: (context, state) => const OphthalmologyPage(),
+      ),
+      GoRoute(
+        path: '/specialty/dental',
+        name: 'specialtyDental',
+        builder: (context, state) => const DentalPage(),
+      ),
+      GoRoute(
+        path: '/specialty/obstetrics',
+        name: 'specialtyObstetrics',
+        builder: (context, state) => const ObstetricsPage(),
+      ),
+      GoRoute(
+        path: '/specialty/psychiatry',
+        name: 'specialtyPsychiatry',
+        builder: (context, state) => const PsychiatryPage(),
+      ),
+      GoRoute(
+        path: '/specialty/internal-medicine',
+        name: 'specialtyInternalMedicine',
+        builder: (context, state) => const ImDashboardPage(),
+      ),
+      GoRoute(
+        path: '/specialty/dermatology',
+        name: 'specialtyDermatology',
+        builder: (context, state) => const DermDashboardPage(),
+      ),
+      GoRoute(
+        path: '/specialty/orthopedics',
+        name: 'specialtyOrthopedics',
+        builder: (context, state) => const OrthoDashboardPage(),
       ),
 
       // ── Appointment ────────────────────────────────────────────────────────
