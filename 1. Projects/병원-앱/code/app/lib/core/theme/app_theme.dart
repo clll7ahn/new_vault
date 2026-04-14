@@ -178,6 +178,215 @@ class AppTheme {
   // ──────────────────────────────────────────
   static ThemeData get darkTheme => _buildTheme(_darkColorScheme);
 
+  // ──────────────────────────────────────────
+  // 어르신 모드 테마
+  // ──────────────────────────────────────────
+  /// 어르신 모드 전용 테마
+  ///
+  /// 일반 라이트 테마를 기반으로 다음 항목을 확장합니다:
+  /// - 폰트: 전체 +6sp (bodyLarge 16→22sp, titleSmall 16→22sp 등)
+  /// - 버튼 높이: 56dp → 64dp
+  /// - 고대비 색상: Navy 계열 유지, 명도 대비 강화
+  static ThemeData get elderlyTheme => _buildElderlyTheme(_lightColorScheme);
+
+  static TextTheme _buildElderlyTextTheme(ColorScheme scheme) {
+    // 기존 텍스트 테마에서 모든 fontSize +6
+    final base = _buildTextTheme(scheme);
+    TextStyle? _up(TextStyle? s) =>
+        s?.copyWith(fontSize: (s.fontSize ?? 14) + 6);
+
+    return TextTheme(
+      displayLarge:  _up(base.displayLarge),
+      displayMedium: _up(base.displayMedium),
+      displaySmall:  _up(base.displaySmall),
+      headlineLarge:  _up(base.headlineLarge),
+      headlineMedium: _up(base.headlineMedium),
+      headlineSmall:  _up(base.headlineSmall),
+      titleLarge:  _up(base.titleLarge),
+      titleMedium: _up(base.titleMedium),
+      titleSmall:  _up(base.titleSmall),
+      bodyLarge:  _up(base.bodyLarge),
+      bodyMedium: _up(base.bodyMedium),
+      bodySmall:  _up(base.bodySmall),
+      labelLarge:  _up(base.labelLarge),
+      labelMedium: _up(base.labelMedium),
+      labelSmall:  _up(base.labelSmall),
+    );
+  }
+
+  static ThemeData _buildElderlyTheme(ColorScheme scheme) {
+    final textTheme = _buildElderlyTextTheme(scheme);
+
+    // 고대비 ColorScheme — 배경 순백, 전경 순흑에 가깝게
+    const ColorScheme highContrast = ColorScheme(
+      brightness: Brightness.light,
+      primary:   Color(0xFF0F2440), // navyDark — 더 진한 네이비
+      onPrimary: Colors.white,
+      primaryContainer: Color(0xFF1A3A5C),
+      onPrimaryContainer: Colors.white,
+      secondary: Color(0xFF334155),
+      onSecondary: Colors.white,
+      secondaryContainer: Color(0xFF94A3B8),
+      onSecondaryContainer: Colors.white,
+      tertiary: Color(0xFF15803D),  // 더 진한 그린
+      onTertiary: Colors.white,
+      error: Color(0xFFB91C1C),
+      onError: Colors.white,
+      errorContainer: Color(0xFFFEE2E2),
+      onErrorContainer: Color(0xFF7F1D1D),
+      surface: Colors.white,
+      onSurface: Color(0xFF0A0A0A),        // 거의 검정
+      surfaceContainerHighest: Color(0xFFE2E8F0),
+      onSurfaceVariant: Color(0xFF1E293B), // 어두운 슬레이트
+      outline: Color(0xFF475569),
+      outlineVariant: Color(0xFF94A3B8),
+      shadow: Color(0x1A000000),
+      scrim: Color(0x80000000),
+      inverseSurface: Color(0xFF1E293B),
+      onInverseSurface: Colors.white,
+      inversePrimary: Color(0xFF2A5080),
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: highContrast,
+      textTheme: textTheme,
+
+      appBarTheme: AppBarTheme(
+        backgroundColor: highContrast.primary,
+        foregroundColor: highContrast.onPrimary,
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle: textTheme.titleLarge?.copyWith(
+          color: highContrast.onPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        iconTheme: const IconThemeData(color: Colors.white, size: 32),
+      ),
+
+      // 버튼 높이 64dp
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: highContrast.primary,
+          foregroundColor: highContrast.onPrimary,
+          minimumSize: const Size(double.infinity, 64),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+          textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          elevation: 3,
+        ),
+      ),
+
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: highContrast.primary,
+          minimumSize: const Size(double.infinity, 64),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+          textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
+          side: BorderSide(color: highContrast.primary, width: 2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+      ),
+
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: highContrast.primary,
+          minimumSize: const Size(56, 56),
+          textStyle: textTheme.labelLarge,
+        ),
+      ),
+
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: highContrast.surfaceContainerHighest.withOpacity(0.5),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        labelStyle: textTheme.bodyLarge?.copyWith(
+            color: highContrast.onSurfaceVariant),
+        hintStyle: textTheme.bodyLarge?.copyWith(color: highContrast.outline),
+        errorStyle: textTheme.bodySmall?.copyWith(color: highContrast.error),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: highContrast.outline),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: highContrast.outlineVariant, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: highContrast.primary, width: 2.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: highContrast.error, width: 2),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: highContrast.error, width: 2.5),
+        ),
+      ),
+
+      cardTheme: CardTheme(
+        color: highContrast.surface,
+        elevation: 3,
+        shadowColor: highContrast.shadow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+      ),
+
+      chipTheme: ChipThemeData(
+        backgroundColor: highContrast.surfaceContainerHighest,
+        selectedColor: highContrast.primaryContainer,
+        labelStyle: textTheme.labelMedium,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: highContrast.surface,
+        selectedItemColor: highContrast.primary,
+        unselectedItemColor: highContrast.onSurfaceVariant,
+        selectedLabelStyle: textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w700,
+        ),
+        unselectedLabelStyle: textTheme.labelSmall,
+        elevation: 8,
+        type: BottomNavigationBarType.fixed,
+      ),
+
+      dividerTheme: DividerThemeData(
+        color: highContrast.outlineVariant,
+        thickness: 1.5,
+        space: 1,
+      ),
+
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: highContrast.inverseSurface,
+        contentTextStyle: textTheme.bodyMedium?.copyWith(
+          color: highContrast.onInverseSurface,
+        ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: highContrast.primary,
+        foregroundColor: highContrast.onPrimary,
+        extendedTextStyle: textTheme.labelLarge,
+        elevation: 5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      ),
+    );
+  }
+
   static ThemeData _buildTheme(ColorScheme scheme) {
     final textTheme = _buildTextTheme(scheme);
 

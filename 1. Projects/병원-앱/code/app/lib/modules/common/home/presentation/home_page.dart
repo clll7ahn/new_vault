@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/theme/accessibility_provider.dart';
 import '../../appointment/domain/appointment_model.dart';
 import '../../appointment/providers/appointment_provider.dart';
 import '../../auth/providers/auth_provider.dart';

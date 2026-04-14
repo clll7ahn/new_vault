@@ -29,6 +29,7 @@ import { PlasticSurgeryModule } from './modules/specialty/plastic-surgery/plasti
 import { KoreanMedicineModule } from './modules/specialty/korean-medicine/korean-medicine.module';
 import { RehabilitationModule } from './modules/specialty/rehabilitation/rehabilitation.module';
 import { AnalyticsModule } from './modules/common/analytics/analytics.module';
+import { BillingModule } from './modules/common/billing/billing.module';
 import { TenantModule } from './common/tenant/tenant.module';
 
 @Module({
@@ -53,6 +54,7 @@ import { TenantModule } from './common/tenant/tenant.module';
     GamificationModule,
     HealthTrackerModule,
     AnalyticsModule,
+    BillingModule,
     InternalMedicineModule.forRoot(),
     DermatologyModule,
     OrthopedicsModule,
