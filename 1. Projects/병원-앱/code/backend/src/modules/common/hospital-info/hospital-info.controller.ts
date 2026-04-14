@@ -9,6 +9,7 @@ import {
   UseGuards,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { HospitalInfoService } from './hospital-info.service';
 import { UpdateHospitalDto } from './dto/update-hospital.dto';
 import { CreateDepartmentDto } from './dto/create-department.dto';
@@ -17,6 +18,7 @@ import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
 
+@ApiTags('hospitals')
 @Controller('api/v1/hospitals')
 export class HospitalInfoController {
   constructor(private readonly hospitalInfoService: HospitalInfoService) {}

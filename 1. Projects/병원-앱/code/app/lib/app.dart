@@ -25,6 +25,15 @@ import 'modules/specialty/psychiatry/presentation/psychiatry_page.dart';
 import 'modules/specialty/internal_medicine/presentation/im_dashboard_page.dart';
 import 'modules/specialty/dermatology/presentation/derm_dashboard_page.dart';
 import 'modules/specialty/orthopedics/presentation/ortho_dashboard_page.dart';
+import 'modules/specialty/ent/presentation/ent_page.dart';
+import 'modules/specialty/family_medicine/presentation/family_medicine_page.dart';
+import 'modules/specialty/urology/presentation/urology_page.dart';
+import 'modules/specialty/neurology/presentation/neurology_page.dart';
+import 'modules/specialty/plastic_surgery/presentation/plastic_surgery_page.dart';
+import 'modules/specialty/korean_medicine/presentation/korean_medicine_page.dart';
+import 'modules/specialty/rehabilitation/presentation/rehabilitation_page.dart';
+import 'modules/common/chatbot/presentation/llm_chat_page.dart';
+import 'modules/common/analytics/presentation/analytics_dashboard_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -158,6 +167,55 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/specialty/orthopedics',
         name: 'specialtyOrthopedics',
         builder: (context, state) => const OrthoDashboardPage(),
+      ),
+      GoRoute(
+        path: '/specialty/ent',
+        name: 'specialtyEnt',
+        builder: (context, state) => const EntPage(),
+      ),
+      GoRoute(
+        path: '/specialty/family-medicine',
+        name: 'specialtyFamilyMedicine',
+        builder: (context, state) => const FamilyMedicinePage(),
+      ),
+      GoRoute(
+        path: '/specialty/urology',
+        name: 'specialtyUrology',
+        builder: (context, state) => const UrologyPage(),
+      ),
+      GoRoute(
+        path: '/specialty/neurology',
+        name: 'specialtyNeurology',
+        builder: (context, state) => const NeurologyPage(),
+      ),
+      GoRoute(
+        path: '/specialty/plastic-surgery',
+        name: 'specialtyPlasticSurgery',
+        builder: (context, state) => const PlasticSurgeryPage(),
+      ),
+      GoRoute(
+        path: '/specialty/korean-medicine',
+        name: 'specialtyKoreanMedicine',
+        builder: (context, state) => const KoreanMedicinePage(),
+      ),
+      GoRoute(
+        path: '/specialty/rehabilitation',
+        name: 'specialtyRehabilitation',
+        builder: (context, state) => const RehabilitationPage(),
+      ),
+
+      // ── LLM Chat ──────────────────────────────────────────────────────────
+      GoRoute(
+        path: '/llm-chat',
+        name: 'llmChat',
+        builder: (context, state) => const LlmChatPage(),
+      ),
+
+      // ── Analytics Dashboard (admin) ───────────────────────────────────────
+      GoRoute(
+        path: '/analytics',
+        name: 'analytics',
+        builder: (context, state) => const AnalyticsDashboardPage(),
       ),
 
       // ── Appointment ────────────────────────────────────────────────────────
