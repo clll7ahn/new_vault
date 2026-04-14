@@ -13,6 +13,9 @@ import { NotificationModule } from './modules/common/notification/notification.m
 import { ChatbotModule } from './modules/common/chatbot/chatbot.module';
 import { GamificationModule } from './modules/common/gamification/gamification.module';
 import { HealthTrackerModule } from './modules/common/health-tracker/health-tracker.module';
+import { InternalMedicineModule } from './modules/specialty/internal-medicine/internal-medicine.module';
+import { DermatologyModule } from './modules/specialty/dermatology/dermatology.module';
+import { OrthopedicsModule } from './modules/specialty/orthopedics/orthopedics.module';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { HealthTrackerModule } from './modules/common/health-tracker/health-trac
     ChatbotModule,
     GamificationModule,
     HealthTrackerModule,
+    InternalMedicineModule.forRoot(),
+    DermatologyModule,
+    OrthopedicsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
