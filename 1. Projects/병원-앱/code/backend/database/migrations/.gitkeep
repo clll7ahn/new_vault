@@ -1,0 +1,8 @@
+# 마이그레이션 파일 디렉토리
+# TypeORM 마이그레이션 파일이 이 디렉토리에 생성됩니다.
+#
+# 마이그레이션 생성 명령어:
+# npm run typeorm migration:generate -- --name=초기마이그레이션이름
+#
+# 마이그레이션 실행 명령어:
+# npm run typeorm migration:run

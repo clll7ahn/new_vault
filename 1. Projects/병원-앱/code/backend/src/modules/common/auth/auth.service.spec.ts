@@ -304,12 +304,12 @@ describe('AuthService', () => {
       const password = 'WrongPassword123!';
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      mockBcrypt.compare.mockResolvedValue(false);
 
       const result = await service.validateUser(email, password);
 
       expect(result).toBeNull();
-      expect(bcrypt.compare).toHaveBeenCalledWith(password, mockUser.passwordHash);
+      expect(mockBcrypt.compare).toHaveBeenCalledWith(password, mockUser.passwordHash);
     });
 
     it('should return null when user is inactive', async () => {
@@ -330,7 +330,7 @@ describe('AuthService', () => {
 
       const activeUser = { ...mockUser, isActive: true };
       mockUserRepository.findOne.mockResolvedValue(activeUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      mockBcrypt.compare.mockResolvedValue(true);
 
       const result = await service.validateUser(email, password);
 
