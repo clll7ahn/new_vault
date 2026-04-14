@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'core/theme/accessibility_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'modules/common/appointment/presentation/appointment_list_page.dart';
 import 'modules/common/appointment/presentation/booking_page.dart';
+import 'modules/common/auth/presentation/guardian_page.dart';
 import 'modules/common/auth/presentation/login_page.dart';
 import 'modules/common/auth/presentation/register_page.dart';
 import 'modules/common/auth/providers/auth_provider.dart';
@@ -226,6 +228,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const BillingPage(),
       ),
 
+      // ── Guardian ───────────────────────────────────────────────────────────
+      GoRoute(
+        path: '/guardian',
+        name: 'guardian',
+        builder: (context, state) => const GuardianPage(),
+      ),
+
       // ── Appointment ────────────────────────────────────────────────────────
       GoRoute(
         path: '/appointments',
@@ -279,12 +288,15 @@ class HospitalApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final isElderly = ref.watch(isElderlyModeProvider);
 
+    // 어르신 모드 활성화 시 elderlyTheme 적용 (다크 모드 없음)
+    // 일반 모드: 라이트/다크 시스템 설정 따름
     return MaterialApp.router(
       title: '병원 앱',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: isElderly ? AppTheme.elderlyTheme : AppTheme.lightTheme,
+      darkTheme: isElderly ? AppTheme.elderlyTheme : AppTheme.darkTheme,
       themeMode: ThemeMode.light,
       routerConfig: router,
       // DatePicker 한국어 지원
